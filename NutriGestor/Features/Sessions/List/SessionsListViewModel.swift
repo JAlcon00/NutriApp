@@ -20,7 +20,7 @@ final class SessionsListViewModel {
         let q = searchText.lowercased()
 
         let filtradas = sesiones.filter { sesion in
-            guard let p = sesion.paciente else { return false }
+            let p = sesion.paciente
             return p.nombre.lowercased().contains(q)
                 || p.apellido.lowercased().contains(q)
         }

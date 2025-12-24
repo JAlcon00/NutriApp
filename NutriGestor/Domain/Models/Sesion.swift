@@ -24,7 +24,7 @@ final class Sesion {
     var brazoCm: Double?
     var piernaCm: Double?
     var notas: String?
-    @Relationship var paciente: Paciente?
+    @Relationship var paciente: Paciente
 
     init(
         fecha: Date = .now,
@@ -38,7 +38,7 @@ final class Sesion {
         brazoCm: Double? = nil,
         piernaCm: Double? = nil,
         notas: String? = nil,
-        paciente: Paciente? = nil
+        paciente: Paciente
     ) {
         self.id = UUID()
         self.fecha = fecha
@@ -60,7 +60,7 @@ final class Sesion {
         fecha: Date = .now,
         peso: Double,
         notas: String? = nil,
-        paciente: Paciente? = nil
+        paciente: Paciente
     ) {
         self.init(
             fecha: fecha,

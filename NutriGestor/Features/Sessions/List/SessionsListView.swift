@@ -35,7 +35,7 @@ struct SessionsListView: View {
 
                 ProgresoPacienteView(
                     paciente: paciente,
-                    sesiones: sesiones.filter { $0.paciente?.id == paciente.id }
+                    sesiones: sesiones.filter { $0.paciente.id == paciente.id }
                 )
             }
         }
@@ -44,4 +44,3 @@ struct SessionsListView: View {
 #Preview {
     SessionsListView()
 }
-

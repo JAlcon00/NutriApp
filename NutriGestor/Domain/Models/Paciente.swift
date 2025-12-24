@@ -57,7 +57,7 @@ final class Paciente {
     var tipoCuerpoRaw: String?
     var actividadFisicaRaw: String?
     var notas: String?
-    @Relationship(deleteRule: .cascade) var sesiones: [Sesion]
+    @Relationship(deleteRule: .cascade, inverse: \Sesion.paciente) var sesiones: [Sesion]
 
     // Computed properties para trabajar con enums
     var tipoCuerpo: TipoCuerpo? {
