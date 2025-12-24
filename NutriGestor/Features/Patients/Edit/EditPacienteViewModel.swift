@@ -19,6 +19,9 @@ final class EditPacienteViewModel {
     var email: String
     var telefono: String
     var estaturaCm: String
+    var edad: String
+    var tipoCuerpo: TipoCuerpo?
+    var actividadFisica: ActividadFisica?
     var notas: String
 
     private let validator = PacienteValidator.self
@@ -31,11 +34,15 @@ final class EditPacienteViewModel {
         self.email = paciente.email ?? ""
         self.telefono = paciente.telefono ?? ""
         self.estaturaCm = String(paciente.estaturaCm)
+        self.edad = paciente.edad.map(String.init) ?? ""
+        self.tipoCuerpo = paciente.tipoCuerpo
+        self.actividadFisica = paciente.actividadFisica
         self.notas = paciente.notas ?? ""
     }
 
     var esValido: Bool {
         guard let estatura = Double(estaturaCm) else { return false }
+        let _ = Int(edad) // edad opcional
         return validator.validarNombre(nombre)
             && validator.validarApellido(apellido)
             && validator.validarEstatura(estatura)
@@ -52,7 +59,11 @@ final class EditPacienteViewModel {
         paciente.telefono = telefono.isEmpty ? nil : telefono
         paciente.estaturaCm = estatura
         paciente.notas = notas.isEmpty ? nil : notas
+        paciente.edad = Int(edad)
+        paciente.tipoCuerpo = tipoCuerpo
+        paciente.actividadFisica = actividadFisica
 
         try? context.save()
     }
 }
+

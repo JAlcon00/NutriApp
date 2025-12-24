@@ -27,6 +27,26 @@ struct AddSesionView: View {
                         .keyboardType(.decimalPad)
                 }
 
+                Section("Composición corporal") {
+                    TextField("% Grasa corporal", text: $viewModel.grasaPorcentajeTexto)
+                        .keyboardType(.decimalPad)
+                    TextField("% Músculo esquelético", text: $viewModel.musculoPorcentajeTexto)
+                        .keyboardType(.decimalPad)
+                }
+
+                Section("Medidas (cm)") {
+                    TextField("Cintura", text: $viewModel.cinturaTexto)
+                        .keyboardType(.decimalPad)
+                    TextField("Cadera", text: $viewModel.caderaTexto)
+                        .keyboardType(.decimalPad)
+                    TextField("Pecho", text: $viewModel.pechoTexto)
+                        .keyboardType(.decimalPad)
+                    TextField("Brazo", text: $viewModel.brazoTexto)
+                        .keyboardType(.decimalPad)
+                    TextField("Pierna", text: $viewModel.piernaTexto)
+                        .keyboardType(.decimalPad)
+                }
+
                 Section("Notas") {
                     TextField("Notas opcionales", text: $viewModel.notas)
                 }
@@ -48,5 +68,4 @@ struct AddSesionView: View {
         }
     }
 }
-
 

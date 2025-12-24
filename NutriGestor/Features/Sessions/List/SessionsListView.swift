@@ -5,18 +5,16 @@ import SwiftData
 struct SessionsListView: View {
 
     @Environment(\.modelContext) private var context
+    @State private var viewModel = SessionsListViewModel()
     @Query(sort: \Sesion.fecha, order: .reverse) private var sesiones: [Sesion]
 
-    @State private var viewModel = SessionsListViewModel()
     @State private var pacienteParaProgreso: Paciente? = nil
 
     var body: some View {
-
         @Bindable var vm = viewModel
 
         NavigationStack {
             ScrollView {
-
                 let filtradas = vm.filtrarSesiones(sesiones)
 
                 VStack(spacing: 16) {
@@ -46,3 +44,4 @@ struct SessionsListView: View {
 #Preview {
     SessionsListView()
 }
+

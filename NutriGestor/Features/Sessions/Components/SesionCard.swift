@@ -33,12 +33,14 @@ struct SesionCard: View {
 
             Spacer()
 
-            Button {
-                onProgresoTapped?()
-            } label: {
-                Image(systemName: "chart.line.uptrend.xyaxis")
-                    .foregroundColor(AppColors.primaryGreen)
-                    .padding(8)
+            if let onProgresoTapped {
+                Button {
+                    onProgresoTapped()
+                } label: {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .foregroundColor(AppColors.primaryGreen)
+                        .padding(8)
+                }
             }
         }
         .padding()
@@ -47,3 +49,4 @@ struct SesionCard: View {
         .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
 }
+

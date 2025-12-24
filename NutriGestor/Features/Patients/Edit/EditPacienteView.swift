@@ -29,6 +29,9 @@ struct EditPacienteView: View {
                         email: $viewModel.email,
                         telefono: $viewModel.telefono,
                         estatura: $viewModel.estaturaCm,
+                        edad: $viewModel.edad,
+                        tipoCuerpo: $viewModel.tipoCuerpo,
+                        actividadFisica: $viewModel.actividadFisica,
                         notas: $viewModel.notas
                     )
                 }

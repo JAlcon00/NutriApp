@@ -15,6 +15,8 @@ struct PacienteDetailView: View {
 
     @State private var showingEditar = false
     @State private var showingNuevaSesion = false
+    @State private var showingProgreso = false
+    @State private var sesionAEliminar: Sesion? = nil
 
     init(paciente: Paciente) {
         _viewModel = State(initialValue: PacienteDetailViewModel(paciente: paciente))
@@ -42,7 +44,7 @@ struct PacienteDetailView: View {
                                     SesionCard(sesion: sesion)
                                         .swipeActions {
                                             Button(role: .destructive) {
-                                                viewModel.eliminarSesion(context: context, sesion: sesion)
+                                                sesionAEliminar = sesion
                                             } label: {
                                                 Label("Eliminar", systemImage: "trash")
                                             }
@@ -59,6 +61,7 @@ struct PacienteDetailView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button("Editar paciente") { showingEditar = true }
+                        Button("Ver progreso") { showingProgreso = true }
                         Button("Nueva sesión") { showingNuevaSesion = true }
                     } label: {
                         Image(systemName: "ellipsis.circle")
@@ -70,6 +73,20 @@ struct PacienteDetailView: View {
             }
             .sheet(isPresented: $showingNuevaSesion) {
                 AddSesionView(paciente: viewModel.paciente)
+            }
+            .sheet(isPresented: $showingProgreso) {
+                ProgresoPacienteView(
+                    paciente: viewModel.paciente,
+                    sesiones: viewModel.sesionesOrdenadas
+                )
+            }
+            .confirmationDialog("¿Eliminar sesión?", item: $sesionAEliminar, titleVisibility: .visible) { sesion in
+                Button("Eliminar", role: .destructive) {
+                    viewModel.eliminarSesion(context: context, sesion: sesion)
+                }
+                Button("Cancelar", role: .cancel) {}
+            } message: { sesion in
+                Text("Se eliminará la sesión del \(sesion.fecha.toPacienteFormat()).")
             }
         }
     }

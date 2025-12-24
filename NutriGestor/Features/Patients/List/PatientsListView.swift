@@ -9,17 +9,18 @@ import SwiftData
 
 struct PatientsListView: View {
 
-    @Environment(\.modelContext) private var context
     @Query(sort: \Paciente.nombre, order: .forward) private var pacientes: [Paciente]
 
-    @State private var viewModel = PatientsListViewModel()
     @State private var showingAdd = false
+    @State private var viewModel = PatientsListViewModel()
+    @State private var pacienteAEliminar: Paciente? = nil
 
     var body: some View {
+        @Bindable var vm = viewModel
+        let filtrados = viewModel.filtrarPacientes(pacientes)
+
         NavigationStack {
             VStack {
-                let filtrados = viewModel.filtrarPacientes(pacientes)
-
                 if filtrados.isEmpty {
                     EmptyStateView(
                         message: viewModel.searchText.isEmpty ?
@@ -35,12 +36,12 @@ struct PatientsListView: View {
                             } label: {
                                 PacienteCard(
                                     paciente: paciente,
-                                    ultimoPeso: viewModel.obtenerUltimoPeso(de: paciente)
+                                    ultimoPeso: PatientsListViewModel().obtenerUltimoPeso(de: paciente)
                                 )
                             }
                             .swipeActions {
                                 Button(role: .destructive) {
-                                    viewModel.eliminarPaciente(context: context, paciente: paciente)
+                                    pacienteAEliminar = paciente
                                 } label: {
                                     Label("Eliminar", systemImage: "trash")
                                 }
@@ -59,6 +60,14 @@ struct PatientsListView: View {
                         Image(systemName: "plus")
                     }
                 }
+            }
+            .confirmationDialog("¿Eliminar paciente?", item: $pacienteAEliminar, titleVisibility: .visible) { paciente in
+                Button("Eliminar", role: .destructive) {
+                    viewModel.eliminarPaciente(context: context, paciente: paciente)
+                }
+                Button("Cancelar", role: .cancel) {}
+            } message: { paciente in
+                Text("Se eliminará \(paciente.nombre) \(paciente.apellido) y todas sus sesiones.")
             }
             .sheet(isPresented: $showingAdd) {
                 AddPacienteView()
